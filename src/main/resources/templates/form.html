@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+</head>
+<body class="h-screen">
+
+<div class="flex items-center flex-col border-b-2 shadow-[0_3px_10px_rgb(0,0,0,0.2)]" >
+    <h1 class="text-[50px] text-center hover:text-red-600">ToDo Lists</h1>
+</div>
+<div class="p-6">
+    <table class="border-collapse border border-slate-500  w-full text-center">
+        <thead>
+        <tr>
+            <th class="border border-slate-600">ID</th>
+            <th class="border border-slate-600">Actions</th>
+            <th class="border border-slate-600">Description</th>
+            <th class="border border-slate-600">Complete</th>
+            <th class="border border-slate-600">CreatedDate</th>
+            <th class="border border-slate-600">ModifiedDate</th>
+        </tr>
+
+        </thead>
+
+        <tbody>
+        <tr th:each="item : ${todoitems}" th:class="${item.complete} ? 'bg-green-400' : 'bg-amber-200'">
+            <td class="border border-slate-600" th:text="${item.id}">item_id</td>
+            <td class="border border-slate-600 flex justify-center gap-1 text-white">
+                <button class="bg-blue-600 px-6 px-4">
+                    <a th:href="@{/edit/{id}(id=${item.id})}">Edit</a>
+                </button>
+                <form th:action="@{/delete/{id}(id=${item.id})}" method="post">
+                    <button type="submit" class="bg-red-600 px-6 px-4">Delete</button>
+                </form>
+            </td>
+            <td class="border border-slate-600" th:text="${item.description}">item_description</td>
+            <td class="border border-slate-600" th:text="${item.complete}">item_complete</td>
+            <td class="border border-slate-600" th:text="${item.createdDate}">item_created_date</td>
+            <td class="border border-slate-600" th:text="${item.modifiedDate}">item_modified_date</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="mt-4">
+        <form th:action="@{/addTodo}" method="get">
+            <button type="submit" class="absolute bottom-4 right-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                Add NewTodo
+            </button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
